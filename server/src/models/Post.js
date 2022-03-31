@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
-import { Schema } from 'mongoose'
 
-const postSchema = new Schema({
+const postSchema = new mongoose.Schema({
   title: {
     type: String,
     maxlength: 70,

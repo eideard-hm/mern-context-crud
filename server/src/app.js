@@ -1,16 +1,19 @@
 import express from 'express'
 import cors from 'cors'
-import router from './routes/posts.route.js'
+import morgan from 'morgan'
+import postRouter from './routes/posts.route.js'
 import { connection } from './mongoose.js'
 
 const app = express()
 connection()
 //routes
-app.use('/posts', router)
+app.use('/api/posts', postRouter)
 
-// app.use()
+// middelware
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
 
 app.use(cors())
-app.use(express.json())
+app.use(morgan('dev'))
 
 export default app
