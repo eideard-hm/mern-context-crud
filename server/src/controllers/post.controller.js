@@ -1,5 +1,10 @@
+import fs from 'fs-extra'
+
 import Post from '../models/Post.js'
-import { uploadFilesCloudinary } from '../utils/cloudinary.js'
+import {
+  deleteFileCloudinary,
+  uploadFilesCloudinary
+} from '../utils/cloudinary.js'
 
 export const getAll = async (req, res) => {
   try {
@@ -30,11 +35,14 @@ export const create = async (req, res) => {
 
     if (req.files.image) {
       const { tempFilePath } = req.files.image
-      const { secure_url, public_id } = await uploadFilesCloudinary(tempFilePath)
+      const { secure_url, public_id } = await uploadFilesCloudinary(
+        tempFilePath
+      )
       image = {
         url: secure_url,
         public_id
       }
+      await fs.remove(tempFilePath)
     }
 
     const newPost = new Post({ title, description, image })
@@ -65,6 +73,9 @@ export const deletePostById = async (req, res) => {
 
     if (!deletePost)
       return res.status(404).send(`Post with id: ${id} not found`)
+
+    if (deletePost.image.public_id)
+      await deleteFileCloudinary(deletePost.image.public_id)
 
     res.status(200).send(deletePost)
   } catch (error) {

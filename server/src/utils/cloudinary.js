@@ -15,3 +15,9 @@ export const uploadFilesCloudinary = async filePath => {
     folder: 'posts'
   })
 }
+
+// delete files from cloudinary
+
+export const deleteFileCloudinary = async publicId => {
+  cloudinary.uploader.destroy(publicId);
+}
