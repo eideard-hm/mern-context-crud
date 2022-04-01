@@ -1,11 +1,12 @@
 import Post from '../models/Post.js'
+import { uploadFilesCloudinary } from '../utils/cloudinary.js'
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await Post.find({})
+    const posts = await Post.find()
     res.status(200).send(posts)
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).json({ message: error.message })
   }
 }
 
@@ -18,18 +19,29 @@ export const getPostById = async (req, res) => {
 
     res.status(200).send(post)
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).json({ message: error.message })
   }
 }
 
 export const create = async (req, res) => {
   try {
     const { title, description } = req.body
-    const newPost = new Post({ title, description })
+    let image = null
+
+    if (req.files.image) {
+      const { tempFilePath } = req.files.image
+      const { secure_url, public_id } = await uploadFilesCloudinary(tempFilePath)
+      image = {
+        url: secure_url,
+        public_id
+      }
+    }
+
+    const newPost = new Post({ title, description, image })
     await newPost.save()
     res.status(201).send(newPost)
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).json({ message: error.message })
   }
 }
 
@@ -42,7 +54,7 @@ export const update = async (req, res) => {
 
     res.status(200).send(updatePost)
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).json({ message: error.message })
   }
 }
 
@@ -56,6 +68,6 @@ export const deletePostById = async (req, res) => {
 
     res.status(200).send(deletePost)
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).json({ message: error.message })
   }
 }
