@@ -8,11 +8,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "axios": "0.26.1",
+    "formik": "2.2.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-hot-toast": "2.2.0",
+    "react-icons": "4.3.1",
+    "react-router-dom": "6.3.0",
+    "yup": "0.32.11"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^1.0.7",
-    "vite": "^2.9.0"
+    "@vitejs/plugin-react": "1.0.7",
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23",
+    "vite": "2.9.0"
   }
 }

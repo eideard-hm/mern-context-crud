@@ -1,8 +1,10 @@
+import AppRoutes from './routes/AppRoutes'
+
 const App = () => {
   return (
-    <>
-      <h1>Hello world</h1>
-    </>
+    <div className='bg-neutral-900 min-h-screen flex items-center justify-center'>
+      <AppRoutes  />
+    </div>
   )
 }
 
