@@ -1,5 +1,20 @@
+import { usePost } from '../hooks/usePost'
+
 const HomePage = () => {
-  return <div>HomePage</div>
+  const { getPosts } = usePost()
+  const { posts = [] } = getPosts()
+  console.log(posts)
+  return (
+    <div>
+      HomePage
+      <hr />
+      <ul>
+        {posts.map(post => (
+          <li key={post._id}>{post.title}</li>
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export default HomePage
