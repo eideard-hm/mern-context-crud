@@ -33,7 +33,7 @@ export const create = async (req, res) => {
     const { title, description } = req.body
     let image = null
 
-    if (req.files.image) {
+    if (req.files?.image) {
       const { tempFilePath } = req.files.image
       const { secure_url, public_id } = await uploadFilesCloudinary(
         tempFilePath
