@@ -19,5 +19,5 @@ export const useAxios = (
     fetchData()
   }, [url])
 
-  return { posts }
+  return { posts, setPosts }
 }
