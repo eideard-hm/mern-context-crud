@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import { VscEmptyWindow } from 'react-icons/vsc'
+import { FaPlus} from 'react-icons/fa'
 import { usePost } from '../hooks/usePost'
+import PostCard from '../components/PostCard';
 
 const HomePage = () => {
   const { getPosts } = usePost();
@@ -8,8 +10,6 @@ const HomePage = () => {
 
   return (
     <div>
-      HomePage
-      <hr />
       {posts.length === 0
         ?
         <div className='flex flex-col justify-center items-center'>
@@ -17,13 +17,13 @@ const HomePage = () => {
           <h1 className='text-white text-2xl'>There are no post</h1>
         </div>
         :
-        <div className='text-white'>
-          <NavLink to="/post">Create new Post</NavLink>
-          <ul>
-            {posts.map(post => (
-              <li key={post._id}>{post.title}</li>
-            ))}
-          </ul>
+        <div>
+          <div className='py-2'>
+            <NavLink to="/post" className="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-zinc-800 font-semibold hover:text-zinc-600 hover:border-zinc-600 mt-4 lg:mt-0">
+              <FaPlus size={20} />
+            </NavLink>
+          </div>
+          <PostCard posts={posts} />
         </div>
       }
     </div>

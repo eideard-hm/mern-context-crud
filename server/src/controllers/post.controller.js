@@ -77,7 +77,7 @@ export const deletePostById = async (req, res) => {
     if (deletePost.image.public_id)
       await deleteFileCloudinary(deletePost.image.public_id)
 
-    res.status(200).send(deletePost)
+    res.status(204).send()
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

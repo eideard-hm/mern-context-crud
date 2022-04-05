@@ -1,20 +1,23 @@
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { object, string } from 'yup'
 import { usePost } from '../hooks/usePost'
+import toast from 'react-hot-toast'
 
-const initalValuesForm = {
+const initialState = {
   title: '',
   description: ''
 }
 
 const PostFom = () => {
   const navigate = useNavigate()
-  const { createPost } = usePost();
+  const { id } = useParams()
+  const { createPost, getPostById } = usePost();
+  const [post, setPost] = useState(initialState);
 
   const handleSubmitFormik = async values => {
-    const [status, data] = await createPost(values)
-
+    const [status] = await createPost(values)
     if (status === 201) {
       navigate('/')
     }
@@ -32,11 +35,26 @@ const PostFom = () => {
     })
   }
 
+  useEffect(() => {
+    (async () => {
+      if (id) {
+        const [data, status] = await getPostById(id)
+        if (status === 200) {
+          setPost(data)
+        } else {
+          toast.error(`No se encontró ningun post asociado al id: ${id}`)
+          navigate('/');
+        }
+      }
+    })()
+  }, [])
+
   return (
     <>
-      <Formik initialValues={initalValuesForm}
+      <Formik initialValues={post}
         validationSchema={handleValidationSchema}
-        onSubmit={handleSubmitFormik}>
+        onSubmit={handleSubmitFormik}
+        enableReinitialize={true}>
 
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
