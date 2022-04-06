@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { object, string } from 'yup'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const FormFormik = ({ post, handleSubmitFormik }) => {
 

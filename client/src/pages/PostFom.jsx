@@ -13,13 +13,20 @@ const initialState = {
 const PostFom = () => {
   const navigate = useNavigate()
   const { id } = useParams()
-  const { createPost, getPostById } = usePost();
+  const { createPost, getPostById, updatePost } = usePost();
   const [post, setPost] = useState(initialState);
 
   const handleSubmitFormik = async values => {
-    const [status] = await createPost(values)
-    if (status === 201) {
-      navigate('/')
+    if (id) {
+      const [status] = await updatePost(values)
+      if (status === 200) {
+        navigate('/')
+      }
+    } else {
+      const [status] = await createPost(values)
+      if (status === 201) {
+        navigate('/')
+      }
     }
   }
 
