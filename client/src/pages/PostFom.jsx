@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { object, string } from 'yup'
-import { usePost } from '../hooks/usePost'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { IoMdArrowRoundBack } from 'react-icons/io'
+import { usePost } from '../hooks/usePost'
+import FormFormik from '../components/FormFormik'
 
 const initialState = {
   title: '',
@@ -23,18 +23,6 @@ const PostFom = () => {
     }
   }
 
-  const handleValidationSchema = () => {
-    return object({
-      title: string()
-        .required("Field title is required")
-        .max(100, "The maximum number of characters is 100")
-        .min(5, "The minimum number of characters is 5"),
-      description: string()
-        .required("Field description is required")
-        .min(5, "The minimum number of characters is 5")
-    })
-  }
-
   useEffect(() => {
     (async () => {
       if (id) {
@@ -50,35 +38,20 @@ const PostFom = () => {
   }, [])
 
   return (
-    <>
-      <Formik initialValues={post}
-        validationSchema={handleValidationSchema}
-        onSubmit={handleSubmitFormik}
-        enableReinitialize={true}>
+    <div className="flex items-center justify-center">
+      <div className="bg-zinc-800 p-10 shadow-md shadow-black rounded">
+        <header className="flex justify-between items-center py-4 text-white">
+          <h3 className="text-xl">New Post</h3>
+          <Link to="/" className="text-gray-400 text-sm hover:text-gray-300">
+            <IoMdArrowRoundBack size={20} />
+          </Link>
+        </header>
 
-        {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
-            <Field name="title"
-              placeholder="title..."
-              className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-            <ErrorMessage name='title'
-              component='p'
-              className='text-red-400 text-sm' />
+        <FormFormik post={post}
+          handleSubmitFormik={handleSubmitFormik} />
 
-            <Field name="description"
-              placeholder="Description..."
-              className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
-            <ErrorMessage name='description'
-              component='p'
-              className='text-red-400 text-sm' />
-
-            <button type='submit'>Save</button>
-          </Form>
-        )}
-
-      </Formik>
-
-    </>
+      </div>
+    </div>
   )
 }
 

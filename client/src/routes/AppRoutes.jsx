@@ -9,7 +9,7 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Navbar branch='Edier H.' />
       <div className='bg-neutral-900 min-h-screen flex items-center justify-center'>
-        <div className='bg-red-100 container px-10 m-auto'>
+        <div className='px-10 container m-auto py-4'>
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/post' element={<PostFom />} />
