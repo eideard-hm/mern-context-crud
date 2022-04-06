@@ -7,7 +7,7 @@ import PostFom from '../pages/PostFom'
 const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <Navbar branch='Edier H.' />
+      <Navbar brand='Edier H.' />
       <div className='bg-neutral-900 min-h-screen flex items-center justify-center'>
         <div className='px-10 container m-auto py-4'>
           <Routes>

@@ -15,13 +15,14 @@ const FormFormik = ({ post, handleSubmitFormik }) => {
                 .min(5, "The minimum number of characters is 5")
         })
     }
+
     return (
         <Formik initialValues={post}
             validationSchema={handleValidationSchema}
             onSubmit={handleSubmitFormik}
             enableReinitialize={true}>
 
-            {({ isSubmitting, handleSubmit }) => (
+            {({ isSubmitting, handleSubmit, setFieldValue }) => (
                 <Form onSubmit={handleSubmit}>
                     <label
                         htmlFor="title"
@@ -29,7 +30,7 @@ const FormFormik = ({ post, handleSubmitFormik }) => {
                         Title
                     </label>
                     <Field name="title"
-                        placeholder="title..."
+                        placeholder="Title..."
                         className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full' />
                     <ErrorMessage name='title'
                         component='p'
@@ -47,6 +48,17 @@ const FormFormik = ({ post, handleSubmitFormik }) => {
                     <ErrorMessage name='description'
                         component='p'
                         className='text-red-400 text-sm' />
+
+                    <label
+                        htmlFor="image"
+                        className="text-sm block font-bold mb-2 text-gray-400">
+                        Image
+                    </label>
+                    <input type="file"
+                        name="image"
+                        className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full'
+                        onChange={(e) => setFieldValue('image', e.target.files[0])}
+                    />
 
                     <button
                         type="submit"

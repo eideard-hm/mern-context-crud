@@ -7,7 +7,8 @@ import FormFormik from '../components/FormFormik'
 
 const initialState = {
   title: '',
-  description: ''
+  description: '',
+  image: null
 }
 
 const PostFom = () => {

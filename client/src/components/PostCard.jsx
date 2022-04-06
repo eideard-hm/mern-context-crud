@@ -2,25 +2,24 @@ import { useNavigate } from 'react-router-dom'
 import { FaTrashAlt } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { usePost } from '../hooks/usePost'
+import { NO_IMAGE_AVAILABLE } from '../utils/config'
 
-const PostCard = ({ posts }) => {
+const PostCard = () => {
   const navigate = useNavigate()
-  const { deletePost } = usePost()
+  const { getPosts, deletePost } = usePost()
+  const posts = ([] = getPosts())
 
-  const handleDelete = id => {
+  const customToastDelete = id => {
     toast(
       t => (
         <div>
-          <p className='text-white'>
+          <p className='text-white mb-2'>
             Do you want to delete <strong>{id}</strong>?
           </p>
           <div>
             <button
               className='bg-red-500 hover:bg-red-400 px-3 py-2 text-sm text-white rounded-sm mx-2'
-              onClick={e => {
-                deletePost(id)
-                toast.dismiss(t.id)
-              }}
+              onClick={() => handleDelete(id, t.id)}
             >
               Delete
             </button>
@@ -42,8 +41,14 @@ const PostCard = ({ posts }) => {
     )
   }
 
+  const handleDelete = async (id, toastId) => {
+    await deletePost(id)
+    toast.dismiss(toastId)
+    toast.success(`Post ${id} deleted successfully`)
+  }
+
   return (
-    <div className='grid grid-cols-3 gap-2'>
+    <>
       {posts.map(post => (
         <div
           key={post._id}
@@ -51,7 +56,7 @@ const PostCard = ({ posts }) => {
           onClick={() => navigate(`/post/${post._id}`)}
         >
           <div className='px-4 py-7'>
-            <div className='flex justify-between'>
+            <div className='flex justify-between items-center mb-2'>
               <h3>
                 <strong>{post.title}</strong>
               </h3>
@@ -59,17 +64,29 @@ const PostCard = ({ posts }) => {
                 className='text-sm px-2 py-1 rounded-sm'
                 onClick={e => {
                   e.stopPropagation()
-                  handleDelete(post._id)
+                  customToastDelete(post._id)
                 }}
               >
                 <FaTrashAlt size='20' className='text-red-600' />
               </button>
             </div>
-            <p className='text-sm'>{post.description}</p>
+            <hr />
+            <p className='text-sm mt-2'>{post.description}</p>
           </div>
+          {post.image
+            ?
+            <img
+              src={post.image.url}
+              alt={post.title}
+              className='object-cover h-40 w-100 m-auto mb-4 rounded'
+            />
+            :
+            <img src={NO_IMAGE_AVAILABLE}
+              alt={post.title}
+              className='object-cover h-40 w-100 m-auto mb-4 rounded' />}
         </div>
       ))}
-    </div>
+    </>
   )
 }
 
