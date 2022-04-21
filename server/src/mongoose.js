@@ -6,6 +6,6 @@ export const connection = async () => {
     const res = await mongoose.connect(MONGO_URI)
     console.log(`Connected to ${res.connection.name}`)
   } catch (error) {
-    console.error(error.message)
+    console.error(error.message);
   }
 }
